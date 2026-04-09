@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1200</width>
+    <height>800</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>家畜点云尺寸测量系统</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QHBoxLayout" name="rootLayout">
+    <item>
+     <widget class="QFrame" name="leftPanel">
+      <layout class="QVBoxLayout" name="leftLayout">
+       <property name="spacing">
+        <number>20</number>
+       </property>
+       <item>
+        <widget class="QPushButton" name="btnLoad">
+         <property name="text">
+          <string>导入点云</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btnSave">
+         <property name="text">
+          <string>导出数据</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btnView">
+         <property name="text">
+          <string>视图控制</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btnMeasure">
+         <property name="text">
+          <string>点选测量</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btnMultiMeasure">
+         <property name="text">
+          <string>连续测量</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btnAuto">
+         <property name="text">
+          <string>自动测量</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btnUndo">
+         <property name="text">
+          <string>撤销</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btnRedo">
+         <property name="text">
+          <string>重做</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btnClear">
+         <property name="text">
+          <string>清空</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item>
+     <widget class="QFrame" name="centerPanel">
+      <layout class="QVBoxLayout" name="centerLayout" stretch="3,1">
+       <property name="spacing">
+        <number>10</number>
+       </property>
+       <item>
+        <widget class="QFrame" name="viewFrame">
+         <layout class="QVBoxLayout" name="viewLayout">
+          <item>
+           <widget class="QWidget" name="open3dWidget" native="true"/>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QTableWidget" name="tableRecords">
+         <column>
+          <property name="text">
+           <string>编号</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>类型</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>数值</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>单位</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>时间</string>
+          </property>
+         </column>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item>
+     <widget class="QFrame" name="rightPanel">
+      <layout class="QVBoxLayout" name="rightLayout">
+       <property name="spacing">
+        <number>20</number>
+       </property>
+       <item>
+        <widget class="QLabel" name="labelTitle">
+         <property name="text">
+          <string>测量信息</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="labelPoints">
+         <property name="text">
+          <string>当前选中点：</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QTextEdit" name="textPoints"/>
+       </item>
+       <item>
+        <widget class="QLabel" name="labelDistance">
+         <property name="text">
+          <string>测量长度：</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="editDistance"/>
+       </item>
+       <item>
+        <widget class="QLabel" name="labelBody">
+         <property name="text">
+          <string>家畜体长：</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="editBodyLength"/>
+       </item>
+      </layout>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
