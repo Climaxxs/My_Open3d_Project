@@ -12,22 +12,233 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(1200, 800)
+        MainWindow.resize(1400, 900)
+        MainWindow.setStyleSheet("\n"
+"    /* 主窗口样式 */\n"
+"    QMainWindow {\n"
+"        background-color: #1e1e1e;\n"
+"    }\n"
+"\n"
+"    /* 面板通用样式 */\n"
+"    QFrame {\n"
+"        background-color: #2d2d2d;\n"
+"        border-radius: 10px;\n"
+"        margin: 5px;\n"
+"    }\n"
+"\n"
+"    /* 左侧面板 */\n"
+"    #leftPanel {\n"
+"        background-color: #252525;\n"
+"        border-right: 1px solid #3d3d3d;\n"
+"        border-radius: 0;\n"
+"        margin: 0;\n"
+"    }\n"
+"\n"
+"    /* 中心面板 */\n"
+"    #centerPanel {\n"
+"        background-color: #1e1e1e;\n"
+"    }\n"
+"\n"
+"    /* 右侧面板 */\n"
+"    #rightPanel {\n"
+"        background-color: #252525;\n"
+"        border-left: 1px solid #3d3d3d;\n"
+"        border-radius: 0;\n"
+"        margin: 0;\n"
+"    }\n"
+"\n"
+"    /* 按钮样式 */\n"
+"    QPushButton {\n"
+"        background-color: #3c3c3c;\n"
+"        border: none;\n"
+"        border-radius: 8px;\n"
+"        color: #ffffff;\n"
+"        font-size: 14px;\n"
+"        font-weight: bold;\n"
+"        padding: 10px 20px;\n"
+"        text-align: left;\n"
+"        min-height: 35px;\n"
+"    }\n"
+"\n"
+"    QPushButton:hover {\n"
+"        background-color: #4a4a4a;\n"
+"        padding-left: 25px;\n"
+"        transition: all 0.3s;\n"
+"    }\n"
+"\n"
+"    QPushButton:pressed {\n"
+"        background-color: #2a2a2a;\n"
+"    }\n"
+"\n"
+"    /* 特殊按钮样式 */\n"
+"    #btnLoad {\n"
+"        background-color: #0078d4;\n"
+"        color: white;\n"
+"    }\n"
+"\n"
+"    #btnLoad:hover {\n"
+"        background-color: #106ebe;\n"
+"    }\n"
+"\n"
+"    #btnMeasure, #btnMultiMeasure, #btnAuto {\n"
+"        background-color: #2d5a2d;\n"
+"    }\n"
+"\n"
+"    #btnMeasure:hover, #btnMultiMeasure:hover, #btnAuto:hover {\n"
+"        background-color: #3d6a3d;\n"
+"    }\n"
+"\n"
+"    #btnSave {\n"
+"        background-color: #107c10;\n"
+"    }\n"
+"\n"
+"    #btnSave:hover {\n"
+"        background-color: #208c20;\n"
+"    }\n"
+"\n"
+"    #btnClear {\n"
+"        background-color: #d83b01;\n"
+"    }\n"
+"\n"
+"    #btnClear:hover {\n"
+"        background-color: #e84b11;\n"
+"    }\n"
+"\n"
+"    /* 表格样式 */\n"
+"    QTableWidget {\n"
+"        background-color: #2d2d2d;\n"
+"        border: none;\n"
+"        border-radius: 8px;\n"
+"        gridline-color: #3d3d3d;\n"
+"        color: #ffffff;\n"
+"        font-size: 12px;\n"
+"    }\n"
+"\n"
+"    QTableWidget::item {\n"
+"        padding: 8px;\n"
+"        border-bottom: 1px solid #3d3d3d;\n"
+"    }\n"
+"\n"
+"    QTableWidget::item:selected {\n"
+"        background-color: #0078d4;\n"
+"    }\n"
+"\n"
+"    QHeaderView::section {\n"
+"        background-color: #3c3c3c;\n"
+"        padding: 8px;\n"
+"        border: none;\n"
+"        color: #ffffff;\n"
+"        font-weight: bold;\n"
+"    }\n"
+"\n"
+"    /* 标签样式 */\n"
+"    QLabel {\n"
+"        color: #e0e0e0;\n"
+"        font-size: 13px;\n"
+"        font-weight: bold;\n"
+"    }\n"
+"\n"
+"    #labelTitle {\n"
+"        font-size: 18px;\n"
+"        font-weight: bold;\n"
+"        color: #0078d4;\n"
+"        padding: 10px;\n"
+"        border-bottom: 2px solid #0078d4;\n"
+"    }\n"
+"\n"
+"    /* 文本编辑框 */\n"
+"    QTextEdit, QLineEdit {\n"
+"        background-color: #1e1e1e;\n"
+"        border: 1px solid #3d3d3d;\n"
+"        border-radius: 6px;\n"
+"        color: #ffffff;\n"
+"        font-size: 12px;\n"
+"        padding: 8px;\n"
+"    }\n"
+"\n"
+"    QTextEdit:focus, QLineEdit:focus {\n"
+"        border: 1px solid #0078d4;\n"
+"        background-color: #252525;\n"
+"    }\n"
+"\n"
+"    /* 滚动条 */\n"
+"    QScrollBar:vertical {\n"
+"        background-color: #2d2d2d;\n"
+"        width: 10px;\n"
+"        border-radius: 5px;\n"
+"    }\n"
+"\n"
+"    QScrollBar::handle:vertical {\n"
+"        background-color: #5a5a5a;\n"
+"        border-radius: 5px;\n"
+"        min-height: 20px;\n"
+"    }\n"
+"\n"
+"    QScrollBar::handle:vertical:hover {\n"
+"        background-color: #6a6a6a;\n"
+"    }\n"
+"\n"
+"    QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {\n"
+"        border: none;\n"
+"        background: none;\n"
+"    }\n"
+"\n"
+"    /* 视图框架 */\n"
+"    #viewFrame {\n"
+"        background-color: #1a1a1a;\n"
+"        border: 1px solid #3d3d3d;\n"
+"        border-radius: 8px;\n"
+"    }\n"
+"\n"
+"    /* 分组框样式 */\n"
+"    QGroupBox {\n"
+"        color: #ffffff;\n"
+"        border: 1px solid #3d3d3d;\n"
+"        border-radius: 8px;\n"
+"        margin-top: 15px;\n"
+"        padding-top: 10px;\n"
+"    }\n"
+"\n"
+"    QGroupBox::title {\n"
+"        subcontrol-origin: margin;\n"
+"        left: 10px;\n"
+"        padding: 0 5px 0 5px;\n"
+"    }\n"
+"   ")
         self.centralwidget = QtWidgets.QWidget(parent=MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.rootLayout = QtWidgets.QHBoxLayout(self.centralwidget)
+        self.rootLayout.setContentsMargins(0, 0, 0, 0)
+        self.rootLayout.setSpacing(0)
         self.rootLayout.setObjectName("rootLayout")
         self.leftPanel = QtWidgets.QFrame(parent=self.centralwidget)
+        self.leftPanel.setMinimumSize(QtCore.QSize(200, 0))
+        self.leftPanel.setMaximumSize(QtCore.QSize(250, 16777215))
         self.leftPanel.setObjectName("leftPanel")
         self.leftLayout = QtWidgets.QVBoxLayout(self.leftPanel)
-        self.leftLayout.setSpacing(20)
+        self.leftLayout.setContentsMargins(15, 20, 15, 20)
+        self.leftLayout.setSpacing(15)
         self.leftLayout.setObjectName("leftLayout")
+        self.labelLogo = QtWidgets.QLabel(parent=self.leftPanel)
+        self.labelLogo.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+        self.labelLogo.setObjectName("labelLogo")
+        self.leftLayout.addWidget(self.labelLogo)
         self.btnLoad = QtWidgets.QPushButton(parent=self.leftPanel)
+        self.btnLoad.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
         self.btnLoad.setObjectName("btnLoad")
         self.leftLayout.addWidget(self.btnLoad)
         self.btnSave = QtWidgets.QPushButton(parent=self.leftPanel)
+        self.btnSave.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
         self.btnSave.setObjectName("btnSave")
         self.leftLayout.addWidget(self.btnSave)
+        self.separator1 = QtWidgets.QFrame(parent=self.leftPanel)
+        self.separator1.setFrameShape(QtWidgets.QFrame.Shape.HLine)
+        self.separator1.setFrameShadow(QtWidgets.QFrame.Shadow.Sunken)
+        self.separator1.setObjectName("separator1")
+        self.leftLayout.addWidget(self.separator1)
+        self.labelMeasureGroup = QtWidgets.QLabel(parent=self.leftPanel)
+        self.labelMeasureGroup.setObjectName("labelMeasureGroup")
+        self.leftLayout.addWidget(self.labelMeasureGroup)
         self.btnView = QtWidgets.QPushButton(parent=self.leftPanel)
         self.btnView.setObjectName("btnView")
         self.leftLayout.addWidget(self.btnView)
@@ -40,6 +251,14 @@ class Ui_MainWindow(object):
         self.btnAuto = QtWidgets.QPushButton(parent=self.leftPanel)
         self.btnAuto.setObjectName("btnAuto")
         self.leftLayout.addWidget(self.btnAuto)
+        self.separator2 = QtWidgets.QFrame(parent=self.leftPanel)
+        self.separator2.setFrameShape(QtWidgets.QFrame.Shape.HLine)
+        self.separator2.setFrameShadow(QtWidgets.QFrame.Shadow.Sunken)
+        self.separator2.setObjectName("separator2")
+        self.leftLayout.addWidget(self.separator2)
+        self.labelEditGroup = QtWidgets.QLabel(parent=self.leftPanel)
+        self.labelEditGroup.setObjectName("labelEditGroup")
+        self.leftLayout.addWidget(self.labelEditGroup)
         self.btnUndo = QtWidgets.QPushButton(parent=self.leftPanel)
         self.btnUndo.setObjectName("btnUndo")
         self.leftLayout.addWidget(self.btnUndo)
@@ -49,21 +268,39 @@ class Ui_MainWindow(object):
         self.btnClear = QtWidgets.QPushButton(parent=self.leftPanel)
         self.btnClear.setObjectName("btnClear")
         self.leftLayout.addWidget(self.btnClear)
+        spacerItem = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Expanding)
+        self.leftLayout.addItem(spacerItem)
         self.rootLayout.addWidget(self.leftPanel)
         self.centerPanel = QtWidgets.QFrame(parent=self.centralwidget)
         self.centerPanel.setObjectName("centerPanel")
         self.centerLayout = QtWidgets.QVBoxLayout(self.centerPanel)
+        self.centerLayout.setContentsMargins(10, 10, 10, 10)
         self.centerLayout.setSpacing(10)
         self.centerLayout.setObjectName("centerLayout")
         self.viewFrame = QtWidgets.QFrame(parent=self.centerPanel)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Expanding)
+        sizePolicy.setHorizontalStretch(3)
+        sizePolicy.setVerticalStretch(3)
+        sizePolicy.setHeightForWidth(self.viewFrame.sizePolicy().hasHeightForWidth())
+        self.viewFrame.setSizePolicy(sizePolicy)
         self.viewFrame.setObjectName("viewFrame")
         self.viewLayout = QtWidgets.QVBoxLayout(self.viewFrame)
+        self.viewLayout.setContentsMargins(5, 5, 5, 5)
         self.viewLayout.setObjectName("viewLayout")
         self.open3dWidget = QtWidgets.QWidget(parent=self.viewFrame)
         self.open3dWidget.setObjectName("open3dWidget")
         self.viewLayout.addWidget(self.open3dWidget)
         self.centerLayout.addWidget(self.viewFrame)
         self.tableRecords = QtWidgets.QTableWidget(parent=self.centerPanel)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Preferred)
+        sizePolicy.setHorizontalStretch(1)
+        sizePolicy.setVerticalStretch(1)
+        sizePolicy.setHeightForWidth(self.tableRecords.sizePolicy().hasHeightForWidth())
+        self.tableRecords.setSizePolicy(sizePolicy)
+        self.tableRecords.setMinimumHeight(200)
+        self.tableRecords.setAlternatingRowColors(True)
+        self.tableRecords.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectionBehavior.SelectRows)
+        self.tableRecords.setShowGrid(True)
         self.tableRecords.setObjectName("tableRecords")
         self.tableRecords.setColumnCount(5)
         self.tableRecords.setRowCount(0)
@@ -77,36 +314,72 @@ class Ui_MainWindow(object):
         self.tableRecords.setHorizontalHeaderItem(3, item)
         item = QtWidgets.QTableWidgetItem()
         self.tableRecords.setHorizontalHeaderItem(4, item)
+        self.tableRecords.verticalHeader().setVisible(False)
         self.centerLayout.addWidget(self.tableRecords)
-        self.centerLayout.setStretch(0, 3)
-        self.centerLayout.setStretch(1, 1)
         self.rootLayout.addWidget(self.centerPanel)
         self.rightPanel = QtWidgets.QFrame(parent=self.centralwidget)
+        self.rightPanel.setMinimumSize(QtCore.QSize(280, 0))
+        self.rightPanel.setMaximumSize(QtCore.QSize(350, 16777215))
         self.rightPanel.setObjectName("rightPanel")
         self.rightLayout = QtWidgets.QVBoxLayout(self.rightPanel)
-        self.rightLayout.setSpacing(20)
+        self.rightLayout.setContentsMargins(15, 20, 15, 20)
+        self.rightLayout.setSpacing(15)
         self.rightLayout.setObjectName("rightLayout")
         self.labelTitle = QtWidgets.QLabel(parent=self.rightPanel)
+        self.labelTitle.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.labelTitle.setObjectName("labelTitle")
         self.rightLayout.addWidget(self.labelTitle)
-        self.labelPoints = QtWidgets.QLabel(parent=self.rightPanel)
+        self.groupPoints = QtWidgets.QGroupBox(parent=self.rightPanel)
+        self.groupPoints.setObjectName("groupPoints")
+        self.groupPointsLayout = QtWidgets.QVBoxLayout(self.groupPoints)
+        self.groupPointsLayout.setObjectName("groupPointsLayout")
+        self.labelPoints = QtWidgets.QLabel(parent=self.groupPoints)
         self.labelPoints.setObjectName("labelPoints")
-        self.rightLayout.addWidget(self.labelPoints)
-        self.textPoints = QtWidgets.QTextEdit(parent=self.rightPanel)
+        self.groupPointsLayout.addWidget(self.labelPoints)
+        self.textPoints = QtWidgets.QTextEdit(parent=self.groupPoints)
+        self.textPoints.setMaximumHeight(120)
+        self.textPoints.setReadOnly(True)
         self.textPoints.setObjectName("textPoints")
-        self.rightLayout.addWidget(self.textPoints)
-        self.labelDistance = QtWidgets.QLabel(parent=self.rightPanel)
+        self.groupPointsLayout.addWidget(self.textPoints)
+        self.rightLayout.addWidget(self.groupPoints)
+        self.groupMeasurement = QtWidgets.QGroupBox(parent=self.rightPanel)
+        self.groupMeasurement.setObjectName("groupMeasurement")
+        self.groupMeasurementLayout = QtWidgets.QVBoxLayout(self.groupMeasurement)
+        self.groupMeasurementLayout.setObjectName("groupMeasurementLayout")
+        self.labelDistance = QtWidgets.QLabel(parent=self.groupMeasurement)
         self.labelDistance.setObjectName("labelDistance")
-        self.rightLayout.addWidget(self.labelDistance)
-        self.editDistance = QtWidgets.QLineEdit(parent=self.rightPanel)
+        self.groupMeasurementLayout.addWidget(self.labelDistance)
+        self.editDistance = QtWidgets.QLineEdit(parent=self.groupMeasurement)
+        self.editDistance.setAlignment(QtCore.Qt.AlignmentFlag.AlignRight)
+        self.editDistance.setReadOnly(True)
         self.editDistance.setObjectName("editDistance")
-        self.rightLayout.addWidget(self.editDistance)
-        self.labelBody = QtWidgets.QLabel(parent=self.rightPanel)
+        self.groupMeasurementLayout.addWidget(self.editDistance)
+        self.labelBody = QtWidgets.QLabel(parent=self.groupMeasurement)
         self.labelBody.setObjectName("labelBody")
-        self.rightLayout.addWidget(self.labelBody)
-        self.editBodyLength = QtWidgets.QLineEdit(parent=self.rightPanel)
+        self.groupMeasurementLayout.addWidget(self.labelBody)
+        self.editBodyLength = QtWidgets.QLineEdit(parent=self.groupMeasurement)
+        self.editBodyLength.setAlignment(QtCore.Qt.AlignmentFlag.AlignRight)
+        self.editBodyLength.setReadOnly(True)
         self.editBodyLength.setObjectName("editBodyLength")
-        self.rightLayout.addWidget(self.editBodyLength)
+        self.groupMeasurementLayout.addWidget(self.editBodyLength)
+        self.rightLayout.addWidget(self.groupMeasurement)
+        self.groupStats = QtWidgets.QGroupBox(parent=self.rightPanel)
+        self.groupStats.setObjectName("groupStats")
+        self.groupStatsLayout = QtWidgets.QVBoxLayout(self.groupStats)
+        self.groupStatsLayout.setObjectName("groupStatsLayout")
+        self.labelPointCount = QtWidgets.QLabel(parent=self.groupStats)
+        self.labelPointCount.setObjectName("labelPointCount")
+        self.groupStatsLayout.addWidget(self.labelPointCount)
+        self.labelMeasureCount = QtWidgets.QLabel(parent=self.groupStats)
+        self.labelMeasureCount.setObjectName("labelMeasureCount")
+        self.groupStatsLayout.addWidget(self.labelMeasureCount)
+        self.progressBar = QtWidgets.QProgressBar(parent=self.groupStats)
+        self.progressBar.setProperty("value", 0)
+        self.progressBar.setObjectName("progressBar")
+        self.groupStatsLayout.addWidget(self.progressBar)
+        self.rightLayout.addWidget(self.groupStats)
+        spacerItem1 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Expanding)
+        self.rightLayout.addItem(spacerItem1)
         self.rootLayout.addWidget(self.rightPanel)
         MainWindow.setCentralWidget(self.centralwidget)
 
@@ -116,15 +389,23 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "家畜点云尺寸测量系统"))
-        self.btnLoad.setText(_translate("MainWindow", "导入点云"))
-        self.btnSave.setText(_translate("MainWindow", "导出数据"))
-        self.btnView.setText(_translate("MainWindow", "视图控制"))
-        self.btnMeasure.setText(_translate("MainWindow", "点选测量"))
-        self.btnMultiMeasure.setText(_translate("MainWindow", "连续测量"))
-        self.btnAuto.setText(_translate("MainWindow", "自动测量"))
-        self.btnUndo.setText(_translate("MainWindow", "撤销"))
-        self.btnRedo.setText(_translate("MainWindow", "重做"))
-        self.btnClear.setText(_translate("MainWindow", "清空"))
+        self.labelLogo.setText(_translate("MainWindow", "🐄 家畜测量系统"))
+        self.labelLogo.setStyleSheet(_translate("MainWindow", "font-size: 16px; font-weight: bold; color: #0078d4; padding: 10px;"))
+        self.btnLoad.setText(_translate("MainWindow", "📁 导入点云"))
+        self.btnSave.setText(_translate("MainWindow", "💾 导出数据"))
+        self.separator1.setStyleSheet(_translate("MainWindow", "background-color: #3d3d3d; max-height: 1px;"))
+        self.labelMeasureGroup.setText(_translate("MainWindow", "📏 测量工具"))
+        self.labelMeasureGroup.setStyleSheet(_translate("MainWindow", "font-size: 13px; color: #888888; margin-top: 10px;"))
+        self.btnView.setText(_translate("MainWindow", "👁️ 视图控制"))
+        self.btnMeasure.setText(_translate("MainWindow", "📍 点选测量"))
+        self.btnMultiMeasure.setText(_translate("MainWindow", "🔗 连续测量"))
+        self.btnAuto.setText(_translate("MainWindow", "🤖 自动测量"))
+        self.separator2.setStyleSheet(_translate("MainWindow", "background-color: #3d3d3d; max-height: 1px;"))
+        self.labelEditGroup.setText(_translate("MainWindow", "✏️ 编辑操作"))
+        self.labelEditGroup.setStyleSheet(_translate("MainWindow", "font-size: 13px; color: #888888; margin-top: 10px;"))
+        self.btnUndo.setText(_translate("MainWindow", "↩️ 撤销"))
+        self.btnRedo.setText(_translate("MainWindow", "↪️ 重做"))
+        self.btnClear.setText(_translate("MainWindow", "🗑️ 清空"))
         item = self.tableRecords.horizontalHeaderItem(0)
         item.setText(_translate("MainWindow", "编号"))
         item = self.tableRecords.horizontalHeaderItem(1)
@@ -135,7 +416,30 @@ class Ui_MainWindow(object):
         item.setText(_translate("MainWindow", "单位"))
         item = self.tableRecords.horizontalHeaderItem(4)
         item.setText(_translate("MainWindow", "时间"))
-        self.labelTitle.setText(_translate("MainWindow", "测量信息"))
-        self.labelPoints.setText(_translate("MainWindow", "当前选中点："))
-        self.labelDistance.setText(_translate("MainWindow", "测量长度："))
-        self.labelBody.setText(_translate("MainWindow", "家畜体长："))
+        self.labelTitle.setText(_translate("MainWindow", "📊 测量信息"))
+        self.groupPoints.setTitle(_translate("MainWindow", "选中的点"))
+        self.labelPoints.setText(_translate("MainWindow", "坐标信息："))
+        self.labelPoints.setStyleSheet(_translate("MainWindow", "color: #888888; font-size: 12px;"))
+        self.textPoints.setPlaceholderText(_translate("MainWindow", "点击点云选择点..."))
+        self.groupMeasurement.setTitle(_translate("MainWindow", "测量结果"))
+        self.labelDistance.setText(_translate("MainWindow", "📏 测量长度："))
+        self.labelDistance.setStyleSheet(_translate("MainWindow", "color: #888888; font-size: 12px;"))
+        self.editDistance.setPlaceholderText(_translate("MainWindow", "0.00"))
+        self.labelBody.setText(_translate("MainWindow", "🐄 家畜体长："))
+        self.labelBody.setStyleSheet(_translate("MainWindow", "color: #888888; font-size: 12px; margin-top: 10px;"))
+        self.editBodyLength.setPlaceholderText(_translate("MainWindow", "0.00"))
+        self.groupStats.setTitle(_translate("MainWindow", "统计信息"))
+        self.labelPointCount.setText(_translate("MainWindow", "点云数量：0"))
+        self.labelMeasureCount.setText(_translate("MainWindow", "测量次数：0"))
+        self.progressBar.setStyleSheet(_translate("MainWindow", "\n"
+"              QProgressBar {\n"
+"                  border: 1px solid #3d3d3d;\n"
+"                  border-radius: 5px;\n"
+"                  text-align: center;\n"
+"                  color: white;\n"
+"              }\n"
+"              QProgressBar::chunk {\n"
+"                  background-color: #0078d4;\n"
+"                  border-radius: 5px;\n"
+"              }\n"
+"             "))

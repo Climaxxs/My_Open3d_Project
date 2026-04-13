@@ -2,108 +2,504 @@
 <ui version="4.0">
  <class>MainWindow</class>
  <widget class="QMainWindow" name="MainWindow">
+
+  <!-- ==================== 窗口基本属性 ==================== -->
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1200</width>
-    <height>800</height>
+    <width>1400</width>
+    <height>900</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>家畜点云尺寸测量系统</string>
   </property>
+
+  <!-- ==================== 全局样式表 ==================== -->
+  <property name="styleSheet">
+   <string notr="true">
+    /* 主窗口样式 */
+    QMainWindow {
+        background-color: #1e1e1e;
+    }
+
+    /* 面板通用样式 */
+    QFrame {
+        background-color: #2d2d2d;
+        border-radius: 10px;
+        margin: 5px;
+    }
+
+    /* 左侧面板 */
+    #leftPanel {
+        background-color: #252525;
+        border-right: 1px solid #3d3d3d;
+        border-radius: 0;
+        margin: 0;
+    }
+
+    /* 中心面板 */
+    #centerPanel {
+        background-color: #1e1e1e;
+    }
+
+    /* 右侧面板 */
+    #rightPanel {
+        background-color: #252525;
+        border-left: 1px solid #3d3d3d;
+        border-radius: 0;
+        margin: 0;
+    }
+
+    /* 按钮样式 */
+    QPushButton {
+        background-color: #3c3c3c;
+        border: none;
+        border-radius: 8px;
+        color: #ffffff;
+        font-size: 14px;
+        font-weight: bold;
+        padding: 10px 20px;
+        text-align: left;
+        min-height: 35px;
+    }
+
+    QPushButton:hover {
+        background-color: #4a4a4a;
+        padding-left: 25px;
+        transition: all 0.3s;
+    }
+
+    QPushButton:pressed {
+        background-color: #2a2a2a;
+    }
+
+    /* 特殊按钮样式 */
+    /* 导入按钮 - 蓝色主题 */
+    #btnLoad {
+        background-color: #0078d4;
+        color: white;
+    }
+
+    #btnLoad:hover {
+        background-color: #106ebe;
+    }
+
+    /* 测量按钮 - 绿色主题 */
+    #btnMeasure, #btnMultiMeasure, #btnAuto {
+        background-color: #2d5a2d;
+    }
+
+    #btnMeasure:hover, #btnMultiMeasure:hover, #btnAuto:hover {
+        background-color: #3d6a3d;
+    }
+
+    /* 保存按钮 - 深绿色 */
+    #btnSave {
+        background-color: #107c10;
+    }
+
+    #btnSave:hover {
+        background-color: #208c20;
+    }
+
+    /* 清空按钮 - 橙色警告色 */
+    #btnClear {
+        background-color: #d83b01;
+    }
+
+    #btnClear:hover {
+        background-color: #e84b11;
+    }
+
+    /* 表格样式 */
+    QTableWidget {
+        background-color: #2d2d2d;
+        border: none;
+        border-radius: 8px;
+        gridline-color: #3d3d3d;
+        color: #ffffff;
+        font-size: 12px;
+    }
+
+    QTableWidget::item {
+        padding: 8px;
+        border-bottom: 1px solid #3d3d3d;
+    }
+
+    QTableWidget::item:selected {
+        background-color: #0078d4;
+    }
+
+    QHeaderView::section {
+        background-color: #3c3c3c;
+        padding: 8px;
+        border: none;
+        color: #ffffff;
+        font-weight: bold;
+    }
+
+    /* 标签样式 */
+    QLabel {
+        color: #e0e0e0;
+        font-size: 13px;
+        font-weight: bold;
+    }
+
+    #labelTitle {
+        font-size: 18px;
+        font-weight: bold;
+        color: #0078d4;
+        padding: 10px;
+        border-bottom: 2px solid #0078d4;
+    }
+
+    /* 文本编辑框 */
+    QTextEdit, QLineEdit {
+        background-color: #1e1e1e;
+        border: 1px solid #3d3d3d;
+        border-radius: 6px;
+        color: #ffffff;
+        font-size: 12px;
+        padding: 8px;
+    }
+
+    QTextEdit:focus, QLineEdit:focus {
+        border: 1px solid #0078d4;
+        background-color: #252525;
+    }
+
+    /* 滚动条 */
+    QScrollBar:vertical {
+        background-color: #2d2d2d;
+        width: 10px;
+        border-radius: 5px;
+    }
+
+    QScrollBar::handle:vertical {
+        background-color: #5a5a5a;
+        border-radius: 5px;
+        min-height: 20px;
+    }
+
+    QScrollBar::handle:vertical:hover {
+        background-color: #6a6a6a;
+    }
+
+    QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {
+        border: none;
+        background: none;
+    }
+
+    /* 视图框架 */
+    #viewFrame {
+        background-color: #1a1a1a;
+        border: 1px solid #3d3d3d;
+        border-radius: 8px;
+    }
+
+    /* 分组框样式 */
+    QGroupBox {
+        color: #ffffff;
+        border: 1px solid #3d3d3d;
+        border-radius: 8px;
+        margin-top: 15px;
+        padding-top: 10px;
+    }
+
+    QGroupBox::title {
+        subcontrol-origin: margin;
+        left: 10px;
+        padding: 0 5px 0 5px;
+    }
+   </string>
+  </property>
+
+  <!-- ==================== 中心控件 ==================== -->
   <widget class="QWidget" name="centralwidget">
    <layout class="QHBoxLayout" name="rootLayout">
+    <property name="spacing">
+     <number>0</number>
+    </property>
+    <property name="leftMargin">
+     <number>0</number>
+    </property>
+    <property name="rightMargin">
+     <number>0</number>
+    </property>
+    <property name="topMargin">
+     <number>0</number>
+    </property>
+    <property name="bottomMargin">
+     <number>0</number>
+    </property>
+
+    <!-- 左侧面板 -->
     <item>
      <widget class="QFrame" name="leftPanel">
+      <property name="minimumSize">
+       <size>
+        <width>200</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>250</width>
+        <height>16777215</height>
+       </size>
+      </property>
       <layout class="QVBoxLayout" name="leftLayout">
        <property name="spacing">
+        <number>15</number>
+       </property>
+       <property name="leftMargin">
+        <number>15</number>
+       </property>
+       <property name="rightMargin">
+        <number>15</number>
+       </property>
+       <property name="topMargin">
         <number>20</number>
        </property>
+       <property name="bottomMargin">
+        <number>20</number>
+       </property>
+
+       <!-- Logo或标题区域 -->
+       <item>
+        <widget class="QLabel" name="labelLogo">
+         <property name="text">
+          <string>🐄 家畜测量系统</string>
+         </property>
+         <property name="styleSheet">
+          <string>font-size: 16px; font-weight: bold; color: #0078d4; padding: 10px;</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+
        <item>
         <widget class="QPushButton" name="btnLoad">
          <property name="text">
-          <string>导入点云</string>
+          <string>📁 导入点云</string>
+         </property>
+         <property name="cursor">
+          <cursorShape>PointingHandCursor</cursorShape>
          </property>
         </widget>
        </item>
+
        <item>
         <widget class="QPushButton" name="btnSave">
          <property name="text">
-          <string>导出数据</string>
+          <string>💾 导出数据</string>
+         </property>
+         <property name="cursor">
+          <cursorShape>PointingHandCursor</cursorShape>
          </property>
         </widget>
        </item>
+
+       <item>
+        <widget class="QFrame" name="separator1">
+         <property name="frameShape">
+          <enum>QFrame::HLine</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Sunken</enum>
+         </property>
+         <property name="styleSheet">
+          <string>background-color: #3d3d3d; max-height: 1px;</string>
+         </property>
+        </widget>
+       </item>
+
+       <item>
+        <widget class="QLabel" name="labelMeasureGroup">
+         <property name="text">
+          <string>📏 测量工具</string>
+         </property>
+         <property name="styleSheet">
+          <string>font-size: 13px; color: #888888; margin-top: 10px;</string>
+         </property>
+        </widget>
+       </item>
+
        <item>
         <widget class="QPushButton" name="btnView">
          <property name="text">
-          <string>视图控制</string>
+          <string>👁️ 视图控制</string>
          </property>
         </widget>
        </item>
+
        <item>
         <widget class="QPushButton" name="btnMeasure">
          <property name="text">
-          <string>点选测量</string>
+          <string>📍 点选测量</string>
          </property>
         </widget>
        </item>
+
        <item>
         <widget class="QPushButton" name="btnMultiMeasure">
          <property name="text">
-          <string>连续测量</string>
+          <string>🔗 连续测量</string>
          </property>
         </widget>
        </item>
+
        <item>
         <widget class="QPushButton" name="btnAuto">
          <property name="text">
-          <string>自动测量</string>
+          <string>🤖 自动测量</string>
          </property>
         </widget>
        </item>
+
+       <item>
+        <widget class="QFrame" name="separator2">
+         <property name="frameShape">
+          <enum>QFrame::HLine</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Sunken</enum>
+         </property>
+         <property name="styleSheet">
+          <string>background-color: #3d3d3d; max-height: 1px;</string>
+         </property>
+        </widget>
+       </item>
+
+       <item>
+        <widget class="QLabel" name="labelEditGroup">
+         <property name="text">
+          <string>✏️ 编辑操作</string>
+         </property>
+         <property name="styleSheet">
+          <string>font-size: 13px; color: #888888; margin-top: 10px;</string>
+         </property>
+        </widget>
+       </item>
+
        <item>
         <widget class="QPushButton" name="btnUndo">
          <property name="text">
-          <string>撤销</string>
+          <string>↩️ 撤销</string>
          </property>
         </widget>
        </item>
+
        <item>
         <widget class="QPushButton" name="btnRedo">
          <property name="text">
-          <string>重做</string>
+          <string>↪️ 重做</string>
          </property>
         </widget>
        </item>
+
        <item>
         <widget class="QPushButton" name="btnClear">
          <property name="text">
-          <string>清空</string>
+          <string>🗑️ 清空</string>
          </property>
         </widget>
+       </item>
+
+       <item>
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
        </item>
       </layout>
      </widget>
     </item>
+
+    <!-- 中心面板 -->
     <item>
      <widget class="QFrame" name="centerPanel">
-      <layout class="QVBoxLayout" name="centerLayout" stretch="3,1">
+      <layout class="QVBoxLayout" name="centerLayout">
        <property name="spacing">
         <number>10</number>
        </property>
+       <property name="leftMargin">
+        <number>10</number>
+       </property>
+       <property name="rightMargin">
+        <number>10</number>
+       </property>
+       <property name="topMargin">
+        <number>10</number>
+       </property>
+       <property name="bottomMargin">
+        <number>10</number>
+       </property>
+
+       <!-- 3D视图区域 -->
        <item>
         <widget class="QFrame" name="viewFrame">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+           <horstretch>3</horstretch>
+           <verstretch>3</verstretch>
+          </sizepolicy>
+         </property>
          <layout class="QVBoxLayout" name="viewLayout">
+          <property name="leftMargin">
+           <number>5</number>
+          </property>
+          <property name="rightMargin">
+           <number>5</number>
+          </property>
+          <property name="topMargin">
+           <number>5</number>
+          </property>
+          <property name="bottomMargin">
+           <number>5</number>
+          </property>
           <item>
            <widget class="QWidget" name="open3dWidget" native="true"/>
           </item>
          </layout>
         </widget>
        </item>
+
+       <!-- 测量记录表格 -->
        <item>
         <widget class="QTableWidget" name="tableRecords">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+           <horstretch>1</horstretch>
+           <verstretch>1</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumHeight">
+          <number>200</number>
+         </property>
+         <property name="alternatingRowColors">
+          <bool>true</bool>
+         </property>
+         <property name="selectionBehavior">
+          <enum>QAbstractItemView::SelectRows</enum>
+         </property>
+         <property name="showGrid">
+          <bool>true</bool>
+         </property>
+         <attribute name="verticalHeaderVisible">
+          <bool>false</bool>
+         </attribute>
          <column>
           <property name="text">
            <string>编号</string>
@@ -134,48 +530,201 @@
       </layout>
      </widget>
     </item>
+
+    <!-- 右侧面板 -->
     <item>
      <widget class="QFrame" name="rightPanel">
+      <property name="minimumSize">
+       <size>
+        <width>280</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>350</width>
+        <height>16777215</height>
+       </size>
+      </property>
       <layout class="QVBoxLayout" name="rightLayout">
        <property name="spacing">
+        <number>15</number>
+       </property>
+       <property name="leftMargin">
+        <number>15</number>
+       </property>
+       <property name="rightMargin">
+        <number>15</number>
+       </property>
+       <property name="topMargin">
         <number>20</number>
        </property>
+       <property name="bottomMargin">
+        <number>20</number>
+       </property>
+
+       <!-- 标题 -->
        <item>
         <widget class="QLabel" name="labelTitle">
          <property name="text">
-          <string>测量信息</string>
+          <string>📊 测量信息</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
          </property>
         </widget>
        </item>
+
+       <!-- 选中点信息组 -->
        <item>
-        <widget class="QLabel" name="labelPoints">
-         <property name="text">
-          <string>当前选中点：</string>
+        <widget class="QGroupBox" name="groupPoints">
+         <property name="title">
+          <string>选中的点</string>
          </property>
+         <layout class="QVBoxLayout" name="groupPointsLayout">
+          <item>
+           <widget class="QLabel" name="labelPoints">
+            <property name="text">
+             <string>坐标信息：</string>
+            </property>
+            <property name="styleSheet">
+             <string>color: #888888; font-size: 12px;</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QTextEdit" name="textPoints">
+            <property name="maximumHeight">
+             <number>120</number>
+            </property>
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
+            <property name="placeholderText">
+             <string>点击点云选择点...</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </widget>
        </item>
+
+       <!-- 测量结果组 -->
        <item>
-        <widget class="QTextEdit" name="textPoints"/>
-       </item>
-       <item>
-        <widget class="QLabel" name="labelDistance">
-         <property name="text">
-          <string>测量长度：</string>
+        <widget class="QGroupBox" name="groupMeasurement">
+         <property name="title">
+          <string>测量结果</string>
          </property>
+         <layout class="QVBoxLayout" name="groupMeasurementLayout">
+          <item>
+           <widget class="QLabel" name="labelDistance">
+            <property name="text">
+             <string>📏 测量长度：</string>
+            </property>
+            <property name="styleSheet">
+             <string>color: #888888; font-size: 12px;</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="editDistance">
+            <property name="placeholderText">
+             <string>0.00</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight</set>
+            </property>
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+
+          <item>
+           <widget class="QLabel" name="labelBody">
+            <property name="text">
+             <string>🐄 家畜体长：</string>
+            </property>
+            <property name="styleSheet">
+             <string>color: #888888; font-size: 12px; margin-top: 10px;</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="editBodyLength">
+            <property name="placeholderText">
+             <string>0.00</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight</set>
+            </property>
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </widget>
        </item>
+
+       <!-- 统计信息组 -->
        <item>
-        <widget class="QLineEdit" name="editDistance"/>
-       </item>
-       <item>
-        <widget class="QLabel" name="labelBody">
-         <property name="text">
-          <string>家畜体长：</string>
+        <widget class="QGroupBox" name="groupStats">
+         <property name="title">
+          <string>统计信息</string>
          </property>
+         <layout class="QVBoxLayout" name="groupStatsLayout">
+          <item>
+           <widget class="QLabel" name="labelPointCount">
+            <property name="text">
+             <string>点云数量：0</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="labelMeasureCount">
+            <property name="text">
+             <string>测量次数：0</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QProgressBar" name="progressBar">
+            <property name="value">
+             <number>0</number>
+            </property>
+            <property name="styleSheet">
+             <string>
+              QProgressBar {
+                  border: 1px solid #3d3d3d;
+                  border-radius: 5px;
+                  text-align: center;
+                  color: white;
+              }
+              QProgressBar::chunk {
+                  background-color: #0078d4;
+                  border-radius: 5px;
+              }
+             </string>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </widget>
        </item>
+
        <item>
-        <widget class="QLineEdit" name="editBodyLength"/>
+        <spacer name="verticalSpacerRight">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
        </item>
       </layout>
      </widget>
