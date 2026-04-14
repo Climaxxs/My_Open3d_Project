@@ -152,11 +152,14 @@ class MainController(QMainWindow):
         """事件过滤器处理鼠标点击"""
         if obj == self.ui.open3dWidget and event.type() == QtCore.QEvent.Type.MouseButtonPress:
             if event.button() == QtCore.Qt.MouseButton.LeftButton:
-                if self.is_measure_mode and self.point_picker:
-                    # 获取鼠标位置
-                    pos = event.pos()
-                    screen_pos = self.ui.open3dWidget.mapToGlobal(pos)
+                # 获取鼠标位置
+                pos = event.pos()
+                screen_pos = self.ui.open3dWidget.mapToGlobal(pos)
 
+                # 调试信息
+                print(f"Qt事件过滤器捕获到点击: widget坐标({pos.x()}, {pos.y()}), 屏幕坐标({screen_pos.x()}, {screen_pos.y()})")
+
+                if self.is_measure_mode and self.point_picker:
                     # 处理点选
                     selected_point = self.point_picker.handle_mouse_click(
                         screen_pos.x(), screen_pos.y()
@@ -167,6 +170,8 @@ class MainController(QMainWindow):
                         self.calculate_measurements()
 
                     return True  # 事件已处理
+                else:
+                    print(f"点击未处理: is_measure_mode={self.is_measure_mode}, point_picker={self.point_picker is not None}")
 
         return super().eventFilter(obj, event)
 

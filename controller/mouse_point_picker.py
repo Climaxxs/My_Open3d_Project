@@ -5,6 +5,11 @@
 import numpy as np
 import open3d as o3d
 from PyQt6.QtCore import Qt, QPoint
+import win32gui
+import win32con
+
+# 导入窗口钩子
+from controller.window_hook import WindowHook, get_open3d_window_handle
 
 
 class MousePointPicker:
@@ -35,17 +40,30 @@ class MousePointPicker:
         # KD树用于加速查询（延迟初始化）
         self.kdtree = None
 
+        # 窗口钩子
+        self.window_hook = None
+        self.open3d_hwnd = None
+
+        # 鼠标点击回调队列（用于在主线程中处理）
+        self.click_queue = []
+
     def enable_picking_mode(self):
         """启用点选模式"""
         self.is_picking_mode = True
         self.widget.setCursor(Qt.CursorShape.CrossCursor)
         print("点选模式已启用")
 
+        # 安装窗口钩子以捕获Open3D窗口内的鼠标点击
+        self._install_window_hook()
+
     def disable_picking_mode(self):
         """禁用点选模式"""
         self.is_picking_mode = False
         self.widget.setCursor(Qt.CursorShape.ArrowCursor)
         print("点选模式已禁用")
+
+        # 卸载窗口钩子
+        self._uninstall_window_hook()
 
     def handle_mouse_click(self, screen_x, screen_y):
 
@@ -442,3 +460,100 @@ class MousePointPicker:
     def get_all_selected_points(self):
         """获取所有选中的点"""
         return self.selected_points.copy()
+
+    # ==================== 窗口钩子相关方法 ====================
+
+    def _install_window_hook(self):
+        """安装窗口钩子以捕获Open3D窗口内的鼠标点击"""
+        try:
+            # 获取Open3D窗口句柄
+            self.open3d_hwnd = get_open3d_window_handle()
+            if not self.open3d_hwnd:
+                print("警告：无法找到Open3D窗口句柄，鼠标点击可能无法在Open3D窗口内捕获")
+                return False
+
+            # 创建窗口钩子实例
+            self.window_hook = WindowHook(self.open3d_hwnd, self._window_hook_callback)
+
+            # 安装钩子
+            if self.window_hook.install_hook():
+                print("窗口钩子安装成功，现在可以捕获Open3D窗口内的鼠标点击")
+                return True
+            else:
+                print("窗口钩子安装失败")
+                return False
+
+        except Exception as e:
+            print(f"安装窗口钩子时出错: {e}")
+            return False
+
+    def _uninstall_window_hook(self):
+        """卸载窗口钩子"""
+        if self.window_hook:
+            try:
+                self.window_hook.uninstall_hook()
+                self.window_hook = None
+                print("窗口钩子已卸载")
+            except Exception as e:
+                print(f"卸载窗口钩子时出错: {e}")
+
+    def _window_hook_callback(self, window_x, window_y):
+        """
+        窗口钩子回调函数，处理Open3D窗口内的鼠标点击
+
+        Args:
+            window_x: Open3D窗口内的X坐标（相对于窗口左上角）
+            window_y: Open3D窗口内的Y坐标（相对于窗口左上角）
+        """
+        if not self.is_picking_mode:
+            return
+
+        print(f"窗口钩子捕获到鼠标点击: 窗口坐标({window_x}, {window_y})")
+
+        # 将窗口坐标转换为屏幕坐标
+        screen_x, screen_y = self._window_to_screen(window_x, window_y)
+        print(f"转换为屏幕坐标: ({screen_x}, {screen_y})")
+
+        # 处理鼠标点击（直接调用handle_mouse_click）
+        # 注意：这个回调在Windows消息循环中调用，可能需要考虑线程安全
+        self._process_hooked_click(screen_x, screen_y)
+
+    def _window_to_screen(self, window_x, window_y):
+        """将Open3D窗口坐标转换为屏幕坐标"""
+        try:
+            if not self.open3d_hwnd:
+                return window_x, window_y
+
+            # 获取窗口在屏幕上的位置
+            rect = win32gui.GetWindowRect(self.open3d_hwnd)
+            screen_x = rect[0] + window_x
+            screen_y = rect[1] + window_y
+
+            return screen_x, screen_y
+
+        except Exception as e:
+            print(f"坐标转换失败: {e}")
+            return window_x, window_y
+
+    def _process_hooked_click(self, screen_x, screen_y):
+        """
+        处理窗口钩子捕获的鼠标点击
+        这个方法可以直接调用，因为它在Windows消息循环中
+        """
+        try:
+            # 调用现有的handle_mouse_click方法
+            # 注意：这里直接调用，可能需要考虑重入问题
+            selected_point = self.handle_mouse_click(screen_x, screen_y)
+
+            # 如果需要通知主线程，可以在这里添加信号或回调
+            # 但目前直接处理应该没问题，因为Open3D的渲染也在主线程
+            return selected_point
+
+        except Exception as e:
+            print(f"处理钩子点击时出错: {e}")
+            return None
+
+    def process_pending_clicks(self):
+        """处理挂起的点击事件（如果使用队列的话）"""
+        # 目前不使用队列，直接处理
+        pass
