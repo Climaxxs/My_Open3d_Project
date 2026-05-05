@@ -52,6 +52,7 @@ def safe_preprocess(pcd):
                 max_nn=20
             )
         )
+        print("成功")
 
     except Exception as e:
         print("法线失败:", e)

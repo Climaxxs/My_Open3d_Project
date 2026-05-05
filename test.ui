@@ -47,7 +47,7 @@
         margin: 0;
         }
 
-        /* 按钮样式 */
+        /* 按钮通用样式 */
         QPushButton {
             background-color: #3c3c3c;
             border: none;
@@ -77,12 +77,20 @@
             background-color: #106ebe;
         }
 
-        /* 测量按钮 - 绿色主题 */
+        /* 测量按钮 - 绿色主题（默认） */
         #btnMeasure, #btnMultiMeasure, #btnAuto {
             background-color: #2d5a2d;
         }
         #btnMeasure:hover, #btnMultiMeasure:hover, #btnAuto:hover {
             background-color: #3d6a3d; }
+
+        /* 测量按钮 - 激活状态（橙色） */
+        #btnMeasure.active, #btnMultiMeasure.active {
+            background-color: #ff9800;
+        }
+        #btnMeasure.active:hover, #btnMultiMeasure.active:hover {
+            background-color: #f57c00;
+        }
 
         /* 保存按钮 - 深绿色 */
         #btnSave {
@@ -222,6 +230,15 @@
         QCheckBox::indicator:checked:hover {
             background-color: #106ebe;
         }
+
+        /* 状态标签样式 */
+        #labelPickStatus {
+            color: #888888;
+            font-size: 11px;
+            padding: 5px;
+            background-color: #1a1a1a;
+            border-radius: 4px;
+        }
     </string>
   </property>
   <widget class="QWidget" name="centralwidget">
@@ -330,7 +347,7 @@
        <item>
         <widget class="QPushButton" name="btnView">
          <property name="text">
-          <string>👁️ 视图控制</string>
+          <string>👁️ 重置视角</string>
          </property>
         </widget>
        </item>
@@ -339,6 +356,9 @@
          <property name="text">
           <string>📍 点选测量</string>
          </property>
+         <property name="toolTip">
+          <string>Ctrl+Shift+点击选择2个点测量距离</string>
+         </property>
         </widget>
        </item>
        <item>
@@ -346,12 +366,18 @@
          <property name="text">
           <string>🔗 连续测量</string>
          </property>
+         <property name="toolTip">
+          <string>Ctrl+Shift+点击连续选点测量</string>
+         </property>
         </widget>
        </item>
        <item>
         <widget class="QPushButton" name="btnAuto">
          <property name="text">
           <string>🤖 自动测量</string>
+         </property>
+         <property name="toolTip">
+          <string>自动测量体长、体高、体宽、胸围</string>
          </property>
         </widget>
        </item>
@@ -361,10 +387,13 @@
           <cursorShape>PointingHandCursor</cursorShape>
          </property>
          <property name="text">
-          <string>📏 显示体长线</string>
+          <string>📏 显示测量线</string>
          </property>
          <property name="checked">
           <bool>true</bool>
+         </property>
+         <property name="toolTip">
+          <string>显示/隐藏体长测量线和OBB盒子</string>
          </property>
         </widget>
        </item>
@@ -394,21 +423,30 @@
        <item>
         <widget class="QPushButton" name="btnUndo">
          <property name="text">
-          <string>↩️ 撤销</string>
+          <string>↩️ 撤销选点</string>
+         </property>
+         <property name="toolTip">
+          <string>撤销最后一个选中的点</string>
          </property>
         </widget>
        </item>
        <item>
         <widget class="QPushButton" name="btnRedo">
          <property name="text">
-          <string>↪️ 重做</string>
+          <string>↪️ 重做选点</string>
+         </property>
+         <property name="toolTip">
+          <string>恢复被撤销的选点</string>
          </property>
         </widget>
        </item>
        <item>
         <widget class="QPushButton" name="btnClear">
          <property name="text">
-          <string>🗑️ 清空</string>
+          <string>🗑️ 清空全部</string>
+         </property>
+         <property name="toolTip">
+          <string>清空所有测量结果和表格</string>
          </property>
         </widget>
        </item>
@@ -585,7 +623,14 @@
              <bool>true</bool>
             </property>
             <property name="placeholderText">
-             <string>点击点云选择点...</string>
+             <string>Ctrl+Shift+点击选择点...</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="labelPickStatus">
+            <property name="text">
+             <string>💡 提示：按住Ctrl+Shift点击点云选点</string>
             </property>
            </widget>
           </item>
@@ -604,7 +649,7 @@
              <string>color: #888888; font-size: 12px;</string>
             </property>
             <property name="text">
-             <string>📏 测量长度：</string>
+             <string>📏 手动测量：</string>
             </property>
            </widget>
           </item>
@@ -627,7 +672,7 @@
              <string>color: #888888; font-size: 12px; margin-top: 10px;</string>
             </property>
             <property name="text">
-             <string>🐄 家畜体长：</string>
+             <string>🐄 体长（自动）：</string>
             </property>
            </widget>
           </item>
