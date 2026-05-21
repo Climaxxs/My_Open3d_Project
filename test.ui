@@ -690,7 +690,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QLineEdit" name="editWidth">
+           <widget class="QLineEdit" name="editHeight">
             <property name="alignment">
              <set>Qt::AlignRight</set>
             </property>
@@ -703,7 +703,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QLineEdit" name="editHeight">
+           <widget class="QLineEdit" name="editWidth">
             <property name="alignment">
              <set>Qt::AlignRight</set>
             </property>

@@ -1,30 +1,30 @@
+"""无数据提示对话框 - 导出时没有任何测量数据"""
+
 from PyQt6.QtWidgets import QDialog, QLabel, QPushButton, QVBoxLayout
 from PyQt6.QtCore import Qt
 
 
 class NoDataDialog(QDialog):
+    """导出时检测到无测量数据时显示，引导用户先进行测量"""
+
     def __init__(self, parent=None):
         super().__init__(parent)
 
         self.setWindowTitle("提示")
         self.setFixedSize(340, 300)
 
-        # 图标
         icon = QLabel("📋")
         icon.setAlignment(Qt.AlignmentFlag.AlignCenter)
         icon.setStyleSheet("font-size: 40px;")
 
-        # 标题
         title = QLabel("暂无测量数据")
         title.setAlignment(Qt.AlignmentFlag.AlignCenter)
         title.setStyleSheet("font-size:16px; font-weight:bold;")
 
-        # 说明
         desc = QLabel("请先进行测量操作：\n• 手动选点测量（Ctrl+Shift+点击）\n• 自动测量（一键测量体尺）")
         desc.setAlignment(Qt.AlignmentFlag.AlignCenter)
         desc.setStyleSheet("color: gray; font-size:12px; line-height: 1.5;")
 
-        # 按钮
         btn_ok = QPushButton("        我知道了")
         btn_ok.clicked.connect(self.accept)
 
@@ -43,7 +43,6 @@ class NoDataDialog(QDialog):
             }
         """)
 
-        # 布局
         layout = QVBoxLayout()
         layout.setSpacing(12)
         layout.addStretch()
@@ -56,7 +55,6 @@ class NoDataDialog(QDialog):
 
         self.setLayout(layout)
 
-        # 整体样式
         self.setStyleSheet("""
             QDialog {
                 background-color: white;

@@ -1,27 +1,26 @@
+"""导出对话框 - 选择导出格式 (CSV / Excel / TXT)"""
+
 from PyQt6.QtWidgets import QDialog, QLabel, QPushButton, QVBoxLayout, QHBoxLayout, QComboBox
 from PyQt6.QtCore import Qt
 
 
 class ExportDialog(QDialog):
+    """导出前选择文件格式"""
+
     def __init__(self, parent=None):
         super().__init__(parent)
 
         self.setWindowTitle("导出测量数据")
         self.setFixedSize(350, 210)
 
-        self.format_choice = "csv"  # 默认CSV
+        self.format_choice = "csv"
 
-        # 标题
         title = QLabel("选择导出格式")
         title.setAlignment(Qt.AlignmentFlag.AlignCenter)
         title.setStyleSheet("font-size:16px; font-weight:bold;")
 
-        # 说明
-        desc = QLabel("将测量记录导出为文件")
-        desc.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        desc.setStyleSheet("color: gray; font-size:12px;")
 
-        # 格式选择下拉框
+
         self.combo_format = QComboBox()
         self.combo_format.addItem("📄 CSV 文件 (.csv)", "csv")
         self.combo_format.addItem("📊 Excel 文件 (.xlsx)", "xlsx")
@@ -51,14 +50,12 @@ class ExportDialog(QDialog):
             }
         """)
 
-        # 按钮
         btn_export = QPushButton("📤 导出")
         btn_cancel = QPushButton("取消")
 
         btn_export.clicked.connect(self.choose_export)
         btn_cancel.clicked.connect(self.reject)
 
-        # 导出按钮样式 - 绿色（与推荐处理按钮一致）
         btn_export.setStyleSheet("""
             QPushButton {
                 background-color: #4CAF50;
@@ -73,7 +70,6 @@ class ExportDialog(QDialog):
             }
         """)
 
-        # 取消按钮样式 - 灰色
         btn_cancel.setStyleSheet("""
             QPushButton {
                 background-color: #dddddd;
@@ -86,24 +82,20 @@ class ExportDialog(QDialog):
             }
         """)
 
-        # 按钮布局
         btn_layout = QHBoxLayout()
         btn_layout.addWidget(btn_cancel)
         btn_layout.addWidget(btn_export)
 
-        # 主布局
         layout = QVBoxLayout()
         layout.setSpacing(15)
         layout.addStretch()
         layout.addWidget(title)
-        layout.addWidget(desc)
         layout.addWidget(self.combo_format)
         layout.addStretch()
         layout.addLayout(btn_layout)
 
         self.setLayout(layout)
 
-        # 整体样式 - 白色背景圆角（与其他对话框一致）
         self.setStyleSheet("""
             QDialog {
                 background-color: white;
@@ -112,8 +104,10 @@ class ExportDialog(QDialog):
         """)
 
     def choose_export(self):
+        """确定导出，记录所选格式"""
         self.format_choice = self.combo_format.currentData()
         self.accept()
 
     def get_format(self):
+        """返回所选格式："csv"、"xlsx" 或 "txt" """
         return self.format_choice

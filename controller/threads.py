@@ -1,11 +1,15 @@
+"""后台线程模块 - 异步加载点云文件，避免阻塞UI"""
+
 from PyQt6.QtCore import QThread, pyqtSignal
 import open3d as o3d
 import numpy as np
 
 
 class PointCloudLoadThread(QThread):
-    finished = pyqtSignal(object)
-    progress = pyqtSignal(str)
+    """在后台线程中加载点云文件，加载完成后通过信号通知主线程"""
+
+    finished = pyqtSignal(object)  # 发射 numpy 点数组，失败时发射 None
+    progress = pyqtSignal(str)     # 发射加载进度描述
 
     def __init__(self, file_path):
         super().__init__()

@@ -1,3 +1,5 @@
+"""测量数据导出模块 - 支持 CSV / Excel / TXT 三种格式"""
+
 import csv
 import os
 from datetime import datetime
@@ -5,19 +7,19 @@ import numpy as np
 
 
 class MeasurementExporter:
+    """静态方法集合，负责将测量数据导出为文件"""
 
     @staticmethod
     def export_to_csv(file_path, table_data, measurement_results=None):
+        """导出为 CSV 文件"""
         try:
             with open(file_path, 'w', newline='', encoding='utf-8-sig') as f:
                 writer = csv.writer(f)
 
-                # 写入标题
                 writer.writerow(['家畜点云尺寸测量系统 - 测量报告'])
                 writer.writerow([f'导出时间: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}'])
                 writer.writerow([])
 
-                # 写入测量结果摘要（如果有）
                 if measurement_results:
                     writer.writerow(['测量结果摘要'])
                     writer.writerow(['项目', '数值 (m)'])
@@ -25,7 +27,6 @@ class MeasurementExporter:
                         writer.writerow([label, f'{value:.3f}'])
                     writer.writerow([])
 
-                # 写入表格数据
                 writer.writerow(['测量记录明细'])
                 writer.writerow(['编号', '类型', '数值 (m)', '单位', '时间'])
                 for row in table_data:
@@ -40,6 +41,7 @@ class MeasurementExporter:
 
     @staticmethod
     def export_to_xlsx(file_path, table_data, measurement_results=None):
+        """导出为 Excel 文件，带格式化样式"""
         try:
             from openpyxl import Workbook
             from openpyxl.styles import Font, Alignment, PatternFill, Border, Side
@@ -48,7 +50,7 @@ class MeasurementExporter:
             ws = wb.active
             ws.title = "测量报告"
 
-            # 标题
+            # 标题行
             ws.merge_cells('A1:E1')
             ws['A1'] = '家畜点云尺寸测量系统 - 测量报告'
             ws['A1'].font = Font(name='微软雅黑', size=16, bold=True)
@@ -87,7 +89,6 @@ class MeasurementExporter:
             ws[f'A{row}'].font = Font(name='微软雅黑', size=13, bold=True)
             row += 1
 
-            # 表头
             headers = ['编号', '类型', '数值 (m)', '单位', '时间']
             for col, header in enumerate(headers, 1):
                 cell = ws.cell(row=row, column=col, value=header)
@@ -97,7 +98,6 @@ class MeasurementExporter:
                 cell.alignment = Alignment(horizontal='center')
             row += 1
 
-            # 数据
             for data_row in table_data:
                 for col, value in enumerate(data_row, 1):
                     ws.cell(row=row, column=col, value=value)
@@ -125,6 +125,7 @@ class MeasurementExporter:
 
     @staticmethod
     def export_to_txt(file_path, table_data, measurement_results=None):
+        """导出为纯文本文件"""
         try:
             with open(file_path, 'w', encoding='utf-8') as f:
                 f.write('=' * 50 + '\n')

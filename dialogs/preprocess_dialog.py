@@ -1,34 +1,34 @@
+"""预处理对话框 - 询问用户是否对加载的点云进行下采样+去噪"""
+
 from PyQt6.QtWidgets import QDialog, QLabel, QPushButton, QVBoxLayout, QHBoxLayout
 from PyQt6.QtCore import Qt
 
 
 class PreprocessDialog(QDialog):
+    """加载点云后弹出，让用户选择是否进行自适应预处理"""
+
     def __init__(self):
         super().__init__()
 
         self.setWindowTitle("点云预处理")
         self.setFixedSize(320, 160)
 
-        self.choice = False  # 默认不处理
+        self.choice = False
 
-        #标题
         title = QLabel("是否对点云进行预处理？")
         title.setAlignment(Qt.AlignmentFlag.AlignCenter)
         title.setStyleSheet("font-size:16px; font-weight:bold;")
 
-        #说明
         desc = QLabel("包含：下采样 + 去噪处理\n（推荐开启）")
         desc.setAlignment(Qt.AlignmentFlag.AlignCenter)
         desc.setStyleSheet("color: gray; font-size:12px;")
 
-        #按钮
         btn_no = QPushButton("直接加载")
         btn_yes = QPushButton("推荐处理")
 
         btn_no.clicked.connect(self.choose_no)
         btn_yes.clicked.connect(self.choose_yes)
 
-        #按钮样式
         btn_no.setStyleSheet("""
             QPushButton {
                 background-color: #dddddd;
@@ -52,7 +52,6 @@ class PreprocessDialog(QDialog):
             }
         """)
 
-        #布局
         btn_layout = QHBoxLayout()
         btn_layout.addWidget(btn_no)
         btn_layout.addWidget(btn_yes)
@@ -66,7 +65,6 @@ class PreprocessDialog(QDialog):
 
         self.setLayout(layout)
 
-        #整体样式
         self.setStyleSheet("""
             QDialog {
                 background-color: white;
@@ -75,12 +73,15 @@ class PreprocessDialog(QDialog):
         """)
 
     def choose_yes(self):
+        """用户选择预处理"""
         self.choice = True
         self.accept()
 
     def choose_no(self):
+        """用户跳过预处理"""
         self.choice = False
         self.accept()
 
     def get_choice(self):
+        """返回用户选择：True=预处理，False=直接加载"""
         return self.choice

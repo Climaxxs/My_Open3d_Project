@@ -1,25 +1,26 @@
+"""警告对话框 - 提示用户尚未加载点云"""
+
 from PyQt6.QtWidgets import QDialog, QLabel, QPushButton, QVBoxLayout
 from PyQt6.QtCore import Qt
 
 
 class WarningDialog(QDialog):
+    """当用户试图在无点云时进行测量操作时弹出的提示"""
+
     def __init__(self):
         super().__init__()
 
         self.setWindowTitle("操作提示")
         self.setFixedSize(320, 150)
 
-        #标题
         title = QLabel("无法进行测量")
         title.setAlignment(Qt.AlignmentFlag.AlignCenter)
         title.setStyleSheet("font-size:16px; font-weight:bold;")
 
-        #说明
         desc = QLabel("当前未加载点云数据\n请先导入点云文件")
         desc.setAlignment(Qt.AlignmentFlag.AlignCenter)
         desc.setStyleSheet("color: gray; font-size:12px;")
 
-        #按钮
         btn_ok = QPushButton("我知道了")
         btn_ok.clicked.connect(self.accept)
 
@@ -36,7 +37,6 @@ class WarningDialog(QDialog):
             }
         """)
 
-        #布局
         layout = QVBoxLayout()
         layout.addStretch()
         layout.addWidget(title)
@@ -46,7 +46,6 @@ class WarningDialog(QDialog):
 
         self.setLayout(layout)
 
-        #整体样式
         self.setStyleSheet("""
             QDialog {
                 background-color: white;

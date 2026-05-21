@@ -1,8 +1,12 @@
+"""模式选择对话框 - 简单测量(椭圆拟合) vs 精细测量(泊松重建+凹包)"""
+
 from PyQt6.QtWidgets import QDialog, QLabel, QPushButton, QVBoxLayout, QHBoxLayout
 from PyQt6.QtCore import Qt
 
 
 class ModeDialog(QDialog):
+    """自动测量前让用户选择测量精度模式"""
+
     def __init__(self):
         super().__init__()
 
@@ -11,24 +15,20 @@ class ModeDialog(QDialog):
 
         self.mode = None
 
-        # 标题
         title = QLabel("请选择测量方式")
         title.setAlignment(Qt.AlignmentFlag.AlignCenter)
         title.setStyleSheet("font-size:16px; font-weight:bold;")
 
-        # 说明
         desc = QLabel("简单测量：快速椭圆拟合\n精细测量：泊松重建 + 凹包计算（耗时较长）")
         desc.setAlignment(Qt.AlignmentFlag.AlignCenter)
         desc.setStyleSheet("color: gray; font-size:12px;")
 
-        # 按钮
         btn_simple = QPushButton(" 简单测量")
         btn_precise = QPushButton(" 精细测量")
 
         btn_simple.clicked.connect(self.choose_simple)
         btn_precise.clicked.connect(self.choose_precise)
 
-        # 简单测量按钮样式 - 绿色
         btn_simple.setStyleSheet("""
             QPushButton {
                 background-color: #4CAF50;
@@ -43,7 +43,6 @@ class ModeDialog(QDialog):
             }
         """)
 
-        # 精细测量按钮样式 - 蓝色
         btn_precise.setStyleSheet("""
             QPushButton {
                 background-color: #2196F3;
@@ -58,7 +57,6 @@ class ModeDialog(QDialog):
             }
         """)
 
-        # 布局
         btn_layout = QVBoxLayout()
         btn_layout.setSpacing(10)
         btn_layout.addWidget(btn_simple)
@@ -75,7 +73,6 @@ class ModeDialog(QDialog):
 
         self.setLayout(layout)
 
-        # 整体样式
         self.setStyleSheet("""
             QDialog {
                 background-color: white;
@@ -84,12 +81,15 @@ class ModeDialog(QDialog):
         """)
 
     def choose_simple(self):
+        """选择简单测量模式（椭圆拟合）"""
         self.mode = "simple"
         self.accept()
 
     def choose_precise(self):
+        """选择精细测量模式（泊松重建 + 凹包）"""
         self.mode = "precise"
         self.accept()
 
     def get_mode(self):
+        """返回所选模式字符串："simple" 或 "precise" """
         return self.mode
