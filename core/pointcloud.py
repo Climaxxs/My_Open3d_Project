@@ -14,7 +14,7 @@ def build_pcd(points):
 
 
 def safe_preprocess(pcd):
-    """自适应预处理管线：体素下采样 -> 半径滤波去噪 -> 法线估计"""
+    """自适应预处理管线：半径滤波去噪 -> 体素下采样 -> 法线估计"""
     n = len(pcd.points)
     print(f"原始点数: {n}")
 
@@ -28,6 +28,8 @@ def safe_preprocess(pcd):
     else:
         voxel = 0.01
 
+    print(f"体素大小: {voxel}")
+
     # 半径滤波去除离群点
     try:
         print("半径滤波...")
@@ -39,7 +41,6 @@ def safe_preprocess(pcd):
     except Exception as e:
         print("半径滤波失败:", e)
 
-    print(f"体素大小: {voxel}")
     pcd = pcd.voxel_down_sample(voxel)
     print(f"下采样后: {len(pcd.points)}")
 
@@ -152,6 +153,7 @@ def measure_chest_circumference(pcd, method='ls'):
     order = np.argsort(eigvals)[::-1]
     eigvecs = eigvecs[:, order]
     proj = centered @ eigvecs
+    proj = crop_by_percent(proj, axis=1, lower=0.0, upper=0.9)
 
     # 沿主轴截取胸部区域 (30%-45%)
     x = proj[:, 0]
@@ -176,8 +178,8 @@ def measure_chest_circumference(pcd, method='ls'):
         a = 2 * np.sqrt(eigvals2[0])
         b = 2 * np.sqrt(eigvals2[1])
 
-    if a <= 0 or b <= 0:
-        return measure_chest_convex_hull(pcd)  # 椭圆退化时回落凸包
+    # if a <= 0 or b <= 0:
+    #     return measure_chest_convex_hull(pcd)  # 椭圆退化时回落凸包 在点云不完整时不可用，舍弃
 
     # Ramanujan 椭圆周长近似公式
     C = np.pi * (3 * (a + b) - np.sqrt((3 * a + b) * (a + 3 * b)))
@@ -195,6 +197,7 @@ def create_chest_ellipse_geometry(pcd, method='ls'):
     order = np.argsort(eigvals)[::-1]
     eigvecs = eigvecs[:, order]
     proj = centered @ eigvecs
+    proj = crop_by_percent(proj, axis=1, lower=0.0, upper=0.8)
 
     x = proj[:, 0]
     chest_min = np.percentile(x, 30)
@@ -233,8 +236,8 @@ def create_chest_ellipse_geometry(pcd, method='ls'):
     # 生成椭圆轮廓点 (200个采样点)
     theta = np.linspace(0, 2 * np.pi, 200)
     ellipse_2d = np.stack([
-        a / 2 * np.cos(theta),
-        b / 2 * np.sin(theta)
+        a / 1 * np.cos(theta),
+        b / 1 * np.sin(theta)
     ], axis=1)
     ellipse_2d = ellipse_2d @ eigvecs2.T + mean2
 
@@ -392,6 +395,7 @@ def measure_chest_concave_hull(pcd, alpha=0.03):
     order = np.argsort(eigvals)[::-1]
     eigvecs = eigvecs[:, order]
     proj = centered @ eigvecs
+    proj = crop_by_percent(proj, axis=1, lower=0.0, upper=0.8)
 
     x = proj[:, 0]
     chest_min = np.percentile(x, 30)

@@ -72,7 +72,7 @@ class MainController(QMainWindow):
     def load_point_cloud(self):
         """打开文件对话框，通过后台线程异步加载点云文件"""
         file_path, _ = QFileDialog.getOpenFileName(
-            self, "选择点云", "", "*.ply *.pcd *.xyz *.txt"
+            self, "选择点云", "", "*.ply *.pcd "#限定可选择的文件防止文件格式问题
         )
         if not file_path:
             return

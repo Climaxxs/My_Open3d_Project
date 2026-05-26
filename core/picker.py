@@ -105,7 +105,7 @@ class PointPicker:
 
         if not win32gui.IsWindow(self.o3d_hwnd):
             return
-
+        #按键是否处于按下状态
         ctrl = win32api.GetAsyncKeyState(win32con.VK_CONTROL) & 0x8000
         shift = win32api.GetAsyncKeyState(win32con.VK_SHIFT) & 0x8000
         left = win32api.GetAsyncKeyState(win32con.VK_LBUTTON) & 0x8000
@@ -435,4 +435,4 @@ class PointPicker:
         self._last_cursor_pos = (0, 0)
 
         self.vis.update_renderer()
-        print("[Picker] 🗑 清除所有选点")
+        print("[Picker] 清除所有选点")

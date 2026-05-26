@@ -89,17 +89,17 @@ class DataManager(QObject):
             dialog.exec()
             return
 
-        # 仅有摘要无明细时确认
-        if not has_table_data and has_summary:
-            reply = QMessageBox.question(
-                parent_widget,
-                "导出确认",
-                "当前没有测量记录明细，\n是否仅导出测量结果摘要？",
-                QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
-                QMessageBox.StandardButton.Yes,
-            )
-            if reply == QMessageBox.StandardButton.No:
-                return
+        # # 仅有摘要无明细时确认
+        # if not has_table_data and has_summary:
+        #     reply = QMessageBox.question(
+        #         parent_widget,
+        #         "导出确认",
+        #         "当前没有测量记录明细，\n是否仅导出测量结果摘要？",
+        #         QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
+        #         QMessageBox.StandardButton.Yes,
+        #     )
+        #     if reply == QMessageBox.StandardButton.No:
+        #         return
 
         dialog = ExportDialog(parent_widget)
         if not dialog.exec():
